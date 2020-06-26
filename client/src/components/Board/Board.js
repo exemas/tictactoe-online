@@ -49,7 +49,7 @@ function Board({ location }) {
     //recupero los valores de la URL.
     const { name, room, img } = queryString.parse(location.search);
 
-    socket = io("localhost:5000");
+    socket = io("https://exeschvartz-tictactoe-online.herokuapp.com");
 
     socket.emit("join", { name, room, img }, (callback) => {
       if (callback) {

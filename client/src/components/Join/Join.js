@@ -31,7 +31,7 @@ function Join() {
   };
 
   useEffect(() => {
-    socket = io("localhost:5000");
+    socket = io("https://exeschvartz-tictactoe-online.herokuapp.com");
     socket.emit("getRoomsAvailable", null, (callback) => {
       if (callback) {
         setRoomsAvailable(callback);
