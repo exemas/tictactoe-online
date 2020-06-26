@@ -1,0 +1,31 @@
+.title {
+  margin-top: 0.3em;
+  font-weight: bold;
+  font-size: 18px !important;
+  text-align: center;
+  /*text-shadow: 1px 1px 1px #adabab;*/
+  color: #702f6b;
+}
+
+.scoreBoard {
+  font-size: 60px;
+  font-weight: bold;
+  color: #702f6b;
+  text-shadow: 1px 1px 1px #adabab;
+  text-align: center;
+  justify-content: center;
+}
+
+.avatar {
+  height: 50px;
+}
+
+.waiting {
+    color: #555353;
+}
+
+.myturn {
+  text-shadow: 0px 0px 15px #702f6b;
+  color: #421d3f;
+  font-weight: bold;
+}

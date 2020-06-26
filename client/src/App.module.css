@@ -1,0 +1,29 @@
+.outerContainer {
+  position: relative !important;
+  min-height: 100vh !important;
+  background-image: linear-gradient(
+    to right top,
+    #051937,
+    #372757,
+    #702f6b,
+    #aa336f,
+    #de4262
+  );
+}
+
+@media (min-height: 500px) {
+  .innerContainer {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+.innerContainer {
+  padding-bottom: 100px;
+}
+
+.title {
+  color: white;
+  padding: 0.5em 0;
+  text-shadow: 1px 1px 3px #333333;
+}

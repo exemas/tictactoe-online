@@ -1,0 +1,87 @@
+const http = require("http");
+const express = require("express");
+const socketio = require("socket.io");
+const cors = require("cors");
+const router = require("./router");
+
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
+
+const {
+    addUser,
+    removeUser,
+    removeUserByID,
+    getTurn,
+    nextTurn,
+    newGame,
+} = require("./functions.js");
+
+io.on("connect", (socket) => {
+    console.log("Conexión establecida.");
+
+    socket.on("getRoom", (room, callback) => {
+        const roomExists = Object.keys(rooms).filter((element) => {
+            return element === room;
+        });
+        if (roomExists.length > 0) {
+            return callback(room);
+        } else {
+            return callback({ error: `La sala ${room} no existe.` });
+        }
+    });
+
+    //Ingresa un usuario a una sala.
+    socket.on("join", ({ name, room, img }, callback) => {
+        const { error, user } = addUser({ id: socket.id, name, room, img });
+        if (error) return callback(error); //Error, sino continúa
+        socket.join(user.room);
+        socket.broadcast.to(user.room).emit("roomData", user);
+        console.log(rooms);
+        if (user) return callback(user);
+    });
+
+    //Petición para saber que ID tiene el turno.
+    socket.on("getTurn", (room, callback) => {
+        console.log(`Saber Turno de sala ${room}`);
+        const sendTurn = getTurn(room);
+        socket.to(Object.values(socket.rooms)[0]).emit("sendTurn", sendTurn);
+    });
+
+    //Petición para saber que ID tiene el turno.
+    socket.on("nextTurn", ({ room, squares }) => {
+        console.log(`Próximo Turno de sala ${room}`);
+        const sendTurn = nextTurn(room);
+        io.in(Object.values(socket.rooms)[0]).emit("sendTurn", sendTurn);
+        io.in(Object.values(socket.rooms)[0]).emit("sendSquares", squares);
+    });
+
+    //Petición para saber que ID tiene el turno.
+    socket.on("newGame", ({ room, squares }) => {
+        console.log(`Nuevo Juego para sala ${room}`);
+        const sendTurn = newGame(room);
+        io.in(Object.values(socket.rooms)[0]).emit("sendTurn", sendTurn);
+        io.in(Object.values(socket.rooms)[0]).emit("sendSquares", squares);
+    });
+
+    //Se desconecta un usuario de una sala.
+    socket.on("leaveRoom", () => {
+        const { roomData } = removeUser(socket, socket.id);
+        console.log(rooms);
+    });
+
+    //Se desconecta un usuario de una sala.
+    socket.on("disconnect", () => {
+        const roomData = removeUserByID(socket.id);
+        socket.broadcast.to(roomData).emit("leave");
+
+        console.log("Se desconectó usuario.");
+    });
+});
+
+app.use(cors());
+app.use(router);
+
+server.listen(process.env.PORT || 5000, () =>
+    console.log(`Server has started.`)
+);

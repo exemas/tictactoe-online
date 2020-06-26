@@ -1,0 +1,67 @@
+@media (max-width: 990px) and (min-width: 754px) {
+  .outerCardContainer {
+    margin-left: 15%;
+    margin-right: 15%;
+  }
+}
+
+@media (min-width: 991px) {
+  .outerCardContainer {
+    margin-left: 20%;
+    margin-right: 20%;
+  }
+}
+
+@media (min-width: 376px) {
+  .imgProfile {
+    margin-left: 2em;
+  }
+}
+
+.title {
+  text-align: center;
+  color: #702f6b;
+}
+
+.btnFull {
+  height: 100%;
+  width: 100%;
+  text-shadow: 2px 2px 3px #333333;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  font-size: larger !important;
+}
+
+.noLink {
+  text-decoration: none !important;
+}
+
+label {
+  color: #702f6b;
+}
+
+input {
+  color: #081933 !important;
+}
+
+input::placeholder {
+  color: #6c727a !important;
+}
+
+.imgProfile {
+  border: 1px solid #b0b2b4;
+  border-radius: 5px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.rowContainer {
+  border: 1px solid #995293;
+  -webkit-box-shadow: 7px 10px 14px -12px rgba(0,0,0,0.38);
+-moz-box-shadow: 7px 10px 14px -12px rgba(0,0,0,0.38);
+box-shadow: 7px 10px 14px -12px rgba(0,0,0,0.38);
+}
