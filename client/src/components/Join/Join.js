@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, Row, Badge } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 import io from "socket.io-client";
 import { useAlert } from "react-alert";
 
@@ -18,6 +19,7 @@ function Join() {
   const [roomJoin, setRoomJoin] = useState("");
   const [canContinueJoin, setcanContinueJoin] = useState(false);
   const [canContinueCreate, setcanContinueCreate] = useState(false);
+  const [roomsAvailable, setRoomsAvailable] = useState([]);
 
   let avatars = require("../avatars.json");
   const [picture, setPicture] = useState(0);
@@ -26,11 +28,15 @@ function Join() {
     let avatarIndex = picture;
     avatarIndex = avatarIndex < avatars.length - 1 ? ++avatarIndex : 0;
     setPicture(avatarIndex);
-    console.log(picture);
   };
 
   useEffect(() => {
     socket = io("localhost:5000");
+    socket.emit("getRoomsAvailable", null, (callback) => {
+      if (callback) {
+        setRoomsAvailable(callback);
+      }
+    });
     return () => {
       socket.close();
     };
@@ -59,6 +65,12 @@ function Join() {
       }
     });
   };
+
+  useEffect(() => {
+    socket.on("roomsAvailable", (roomData) => {
+      setRoomsAvailable(roomData);
+    });
+  });
 
   return (
     <div>
@@ -135,6 +147,27 @@ function Join() {
               >
                 Ingresar
               </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <label>Salas disponibles: </label>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs="12">
+              {roomsAvailable.map((value, index) => {
+                return (
+                  <LinkContainer
+                    to={`/game?room=${value}&name=${name}&img=${picture}`}
+                    key={index}
+                  >
+                    <Badge pill variant="primary" className={styles.badge}>
+                      {value}
+                    </Badge>
+                  </LinkContainer>
+                );
+              })}
             </Col>
           </Row>
         </Card.Body>

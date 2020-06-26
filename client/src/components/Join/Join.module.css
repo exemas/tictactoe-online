@@ -53,3 +53,11 @@ input::placeholder {
   border: 1px solid #b0b2b4;
   border-radius: 5px;
 }
+
+.badge {
+  cursor: pointer;
+  background-color: #702f6b !important;
+  font-size: 14px !important;
+  margin-left: 2px;
+  margin-right: 3px;
+}
