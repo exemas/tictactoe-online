@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
-    "heroku-postbuild": "cd client && yarn && yarn run build"
+    "start": "node index.js",
+    "heroku-postbuild": "cd client && npm && npm run build"
   },
   "keywords": [],
   "author": "",
