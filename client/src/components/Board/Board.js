@@ -157,7 +157,11 @@ function Board({ location }) {
   };
 
   const handleClick = (event) => {
-    if (myStats.id === turn && squares[event.target.id] === null) {
+    if (
+      myStats.id === turn &&
+      squares[event.target.id] === null &&
+      clicked === false
+    ) {
       const newSquares = squares.slice();
       newSquares[event.target.id] = myStats.type;
       clicked = true; //para evitar el loop

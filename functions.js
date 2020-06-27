@@ -77,10 +77,13 @@ const removeUserByID = (id) => {
 
 const getTurn = (room) => {
   var turn = "";
+  console.log(room);
   if (room !== "") {
     var step = rooms["roomStep"][room];
     if (typeof rooms[room][step % 2] !== "undefined") {
-      turn = rooms[room][step % 2].id;
+      if (rooms["roomStep"][room] !== -1) {
+        turn = rooms[room][step % 2].id;
+      }
     }
   }
   return turn;
@@ -93,21 +96,26 @@ const nextTurn = (room) => {
     step = step + 1;
     rooms["roomStep"][room] = step;
     if (typeof rooms[room][step % 2] !== "undefined") {
-      turn = rooms[room][step % 2].id;
+      if (rooms["roomStep"][room] !== -1) {
+        turn = rooms[room][step % 2].id;
+      }
     }
   }
   return turn;
 };
 
 const newGame = (room) => {
-  var turn = "";
+  var turn = "none";
   if (room !== "") {
     const step = rooms["roomStep"][room] > 1 ? -1 : Math.round(Math.random());
     rooms["roomStep"][room] = step;
+    console.log(step);
     if (typeof rooms[room][step % 2] !== "undefined") {
       turn = step !== -1 ? rooms[room][step % 2].id : "";
     }
   }
+  console.log(turn);
+
   return turn;
 };
 

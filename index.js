@@ -46,7 +46,7 @@ io.on("connect", (socket) => {
   });
 
   //Petición para saber que ID tiene el turno.
-  socket.on("getTurn", (room, callback) => {
+  socket.on("getTurn", (room) => {
     console.log(`Saber Turno de sala ${room}`);
     const sendTurn = getTurn(room);
     socket.to(Object.values(socket.rooms)[0]).emit("sendTurn", sendTurn);
@@ -64,8 +64,8 @@ io.on("connect", (socket) => {
   socket.on("newGame", ({ room, squares }) => {
     console.log(`Nuevo Juego para sala ${room}`);
     const sendTurn = newGame(room);
-    io.in(Object.values(socket.rooms)[0]).emit("sendTurn", sendTurn);
-    io.in(Object.values(socket.rooms)[0]).emit("sendSquares", squares);
+    io.in(room).emit("sendTurn", sendTurn);
+    io.in(room).emit("sendSquares", squares);
   });
 
   //Se desconecta un usuario de una sala.
